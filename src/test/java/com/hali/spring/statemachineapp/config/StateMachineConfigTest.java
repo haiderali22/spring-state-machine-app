@@ -1,10 +1,7 @@
 package com.hali.spring.statemachineapp.config;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.UUID;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +10,6 @@ import org.springframework.statemachine.config.StateMachineFactory;
 
 import com.hali.spring.statemachineapp.domain.OrderEvent;
 import com.hali.spring.statemachineapp.domain.OrderState;
-import com.hali.spring.statemachineapp.services.OrderService;
 
 @SpringBootTest
 class StateMachineConfigTest 

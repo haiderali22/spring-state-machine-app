@@ -2,6 +2,8 @@ package com.hali.spring.statemachineapp.config.action;
 
 import java.util.Optional;
 
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.action.Action;
 import org.springframework.stereotype.Component;
@@ -26,7 +28,13 @@ public class OrderPlacedAction implements Action<OrderState, OrderEvent>
 					
 				if(!isPrePaid)
 				{
-					context.getStateMachine().sendEvent(OrderEvent.UNLOCK_DELIVERY);
+					Message<OrderEvent> omsg = MessageBuilder.withPayload(OrderEvent.UNLOCK_DELIVERY).
+							setHeader(OrderService.ORDER_ID_HEADER, 
+									Long.class.cast( msg.getHeaders().get(OrderService.ORDER_ID_HEADER))).
+							setHeader(OrderService.ORDER_PREPAID_HEADER, isPrePaid)
+							.build();
+					
+					context.getStateMachine().sendEvent(omsg);
 				}
 
 			});

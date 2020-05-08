@@ -34,8 +34,9 @@ public class StateMachineConfig extends StateMachineConfigurerAdapter<OrderState
 		.states(EnumSet.allOf(OrderState.class))
 		.end(OrderState.COMPLETED)
 		.end(OrderState.CANCELED)
-//		.state(OrderState.PLACED, orderPlacedAction)
-		.stateDo(OrderState.PLACED, orderPlacedAction);
+		.stateEntry(OrderState.PLACED, orderPlacedAction);
+//		.state(OrderState.PLACED, context -> context.getStateMachine().sendEvent(OrderEvent.UNLOCK_DELIVERY));
+//		.stateDo(OrderState.PLACED, orderPlacedAction);
 	}
 
 	@Override
@@ -45,8 +46,8 @@ public class StateMachineConfig extends StateMachineConfigurerAdapter<OrderState
 			.withExternal()
 				.source(OrderState.NEW)
 				.event(OrderEvent.ORDER_PLACED)
-				.target(OrderState.PLACED)			
-				.action(orderPlacedAction)
+				.target(OrderState.PLACED)
+//				.action(orderPlacedAction)
 		.and()
 			.withExternal()
 				.source(OrderState.PLACED)

@@ -70,7 +70,17 @@ class OrderServiceTest
 		
 		Order fetchOrder =  orderRepo.getOne(saved.getId());
 
+		List<OrderHistory> lst = orderHRepo.getAllByOrder(saved.getId());
+
+		lst.forEach( o -> {
+			System.out.println(  o.getPreviousState() + " " +
+					o.getEvent() + " " + o.getCurrentState());				
+		});
+		
+		
 		Assertions.assertEquals( OrderState.READY_FOR_DELIVERY ,fetchOrder.getCurrentState());
+		
+		
 	}
 
 	@Test
@@ -84,5 +94,5 @@ class OrderServiceTest
 		Assertions.assertEquals( OrderState.PLACED ,fetchOrder.getCurrentState());
 	}
 
-
+	
 }
