@@ -11,30 +11,31 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.config.StateMachineFactory;
 
-import com.hali.spring.statemachineapp.domain.PaymentEvent;
-import com.hali.spring.statemachineapp.domain.PaymentState;
+import com.hali.spring.statemachineapp.domain.OrderEvent;
+import com.hali.spring.statemachineapp.domain.OrderState;
+import com.hali.spring.statemachineapp.services.OrderService;
 
 @SpringBootTest
 class StateMachineConfigTest 
 {
 	@Autowired
-	StateMachineFactory<PaymentState, PaymentEvent> factory ;
+	StateMachineFactory<OrderState, OrderEvent> factory ;
 	
 	@Test
 	public void testNewStateMachine()
 	{
-		StateMachine<PaymentState, PaymentEvent> sm = factory.getStateMachine(UUID.randomUUID());
+		StateMachine<OrderState, OrderEvent> sm = factory.getStateMachine(UUID.randomUUID());
 		
 		sm.start();
 		
 		System.out.println(sm.getState().toString());
 		
-		sm.sendEvent(PaymentEvent.PRE_AUTHORIZE);
+		sm.sendEvent(OrderEvent.ORDER_PLACED);
 		
 		System.out.println(sm.getState().toString());
 		
 
-		sm.sendEvent(PaymentEvent.PRE_AUTH_APPROVED);
+		sm.sendEvent(OrderEvent.PAYMENT_RECEIVED);
 		
 		System.out.println(sm.getState().toString());
 	}
